@@ -656,3 +656,28 @@ textarea:focus {
     max-width: 80vw;
   }
 }
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-credit {
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 12px;
+  backdrop-filter: blur(14px);
+}
+
+.sidebar-credit span {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.sidebar-credit strong {
+  color: var(--green-dark);
+}
+
