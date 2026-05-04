@@ -651,3 +651,15 @@ textarea:focus {
   object-fit: contain;
   display: block;
 }
+.brand-icon.image-brand {
+  background: rgba(255, 255, 255, 0.72);
+  padding: 6px;
+  overflow: hidden;
+}
+
+.brand-icon.image-brand img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
