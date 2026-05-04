@@ -4,165 +4,371 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ArquillaPh Rental Property Management System</title>
-
-  <!-- CSS file, gagawin natin sa next step -->
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <aside class="sidebar">
-    <h1>ArquillaPh</h1>
-    <p>Rental Property Management System</p>
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <h1 id="appBrand">ArquillaPh</h1>
+        <p>Rental Property System</p>
+      </div>
+    </div>
 
-    <button data-tab="dashboard">Dashboard</button>
-    <button data-tab="tenants">Tenants / Guests</button>
-    <button data-tab="rooms">Rooms / Units</button>
-    <button data-tab="billing">Billing</button>
-    <button data-tab="invoice">Invoice / SOA</button>
-    <button data-tab="contracts">Contracts</button>
-    <button data-tab="sms">SMS Templates</button>
-    <button data-tab="reports">Reports</button>
+    <nav class="nav-menu">
+      <button class="nav-btn active" data-tab="dashboard">🏠 Dashboard</button>
+      <button class="nav-btn" data-tab="setup">⚙️ Property Setup</button>
+      <button class="nav-btn" data-tab="tenants">👥 Tenants / Guests</button>
+      <button class="nav-btn" data-tab="rooms">🛏 Rooms / Units</button>
+      <button class="nav-btn" data-tab="billing">₱ Billing</button>
+      <button class="nav-btn" data-tab="invoice">🧾 Invoice / SOA</button>
+      <button class="nav-btn" data-tab="contracts">📄 Contracts</button>
+      <button class="nav-btn" data-tab="sms">💬 SMS Templates</button>
+      <button class="nav-btn" data-tab="maintenance">🔧 Maintenance</button>
+      <button class="nav-btn" data-tab="reports">📊 Reports</button>
+    </nav>
   </aside>
 
   <main class="main-content">
-    <section id="dashboard" class="tab active">
-      <h2>Dashboard</h2>
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">Landlord workspace</span>
+        <h2 id="pageTitle">Dashboard</h2>
+        <p id="propertySubtitle">Manage bedspace, studio type, and transient rooms.</p>
+      </div>
 
-      <div class="cards">
-        <div class="card">
+      <div class="top-actions">
+        <button type="button" class="secondary-btn" data-tab-jump="invoice">Print SOA</button>
+        <button type="button" class="primary-btn" data-tab-jump="billing">Create Bill</button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="tab active">
+      <div class="hero-panel">
+        <div>
+          <span class="eyebrow">All-in-one rental management</span>
+          <h3 id="dashboardPropertyName">ArquillaPh Property</h3>
+          <p>
+            Track tenants, room availability, payments, statements, reminders, and maintenance requests in one dashboard.
+          </p>
+        </div>
+
+        <div class="hero-phone">
+          <div class="phone-top"></div>
+          <div class="phone-screen">
+            <div class="mini-stat">
+              <span>Due Today</span>
+              <strong id="miniDueToday">0</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Overdue</span>
+              <strong id="miniOverdue">0</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Open Requests</span>
+              <strong id="miniRequests">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🏠</div>
           <span>Total Rooms</span>
           <strong id="totalRooms">0</strong>
         </div>
 
-        <div class="card">
-          <span>Occupied Rooms</span>
-          <strong id="occupiedRooms">0</strong>
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <span>Tenants / Guests</span>
+          <strong id="totalTenants">0</strong>
         </div>
 
-        <div class="card">
+        <div class="stat-card">
+          <div class="stat-icon">🛏</div>
           <span>Available Slots</span>
           <strong id="availableSlots">0</strong>
         </div>
 
-        <div class="card">
+        <div class="stat-card">
+          <div class="stat-icon peso-icon">₱</div>
           <span>Total Due</span>
           <strong id="totalDue">₱0</strong>
         </div>
       </div>
+
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <h3>Notifications</h3>
+            <span>Auto alerts</span>
+          </div>
+          <div id="notificationList"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h3>Quick Features</h3>
+            <span>App tools</span>
+          </div>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <strong>📥 Excel Import</strong>
+              <span>Import tenant and room data from spreadsheet records.</span>
+            </div>
+
+            <div class="feature-item">
+              <strong>📣 Bulk SMS</strong>
+              <span>Use templates for reminders, confirmations, and announcements.</span>
+            </div>
+
+            <div class="feature-item">
+              <strong>📄 Contract Generator</strong>
+              <span>Create bedspace, studio, or transient agreements.</span>
+            </div>
+
+            <div class="feature-item">
+              <strong>🔧 Tenant Requests</strong>
+              <span>Track maintenance issues and tenant concerns.</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="setup" class="tab">
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Property Setup</h3>
+          <span>Customize this app for any landlord or property owner</span>
+        </div>
+
+        <form id="setupForm" class="form-grid">
+          <label>
+            Owner / Business Name
+            <input id="ownerName" placeholder="ArquillaPh" />
+          </label>
+
+          <label>
+            Property Name
+            <input id="propertyName" placeholder="Arquilla Boarding House" />
+          </label>
+
+          <label>
+            Property Address
+            <input id="propertyAddress" placeholder="Property address" />
+          </label>
+
+          <label>
+            Contact Number
+            <input id="propertyContact" placeholder="09xxxxxxxxx" />
+          </label>
+
+          <label>
+            Email Address
+            <input id="propertyEmail" placeholder="email@example.com" />
+          </label>
+
+          <label>
+            Main Rental Type
+            <select id="mainRentalType">
+              <option>Bedspace</option>
+              <option>Studio</option>
+              <option>Transient</option>
+              <option>Mixed Rental</option>
+            </select>
+          </label>
+
+          <button type="submit" class="primary-btn">Save Property Profile</button>
+        </form>
+      </section>
     </section>
 
     <section id="tenants" class="tab">
-      <h2>Tenant / Guest Records</h2>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Tenant / Guest Records</h3>
+          <span>Name, contact, ID, emergency details, and rental type</span>
+        </div>
 
-      <form id="tenantForm">
-        <input id="tenantName" placeholder="Name" required />
-        <input id="tenantContact" placeholder="Contact number" />
-        <input id="tenantAddress" placeholder="Address" />
-        <input id="tenantId" placeholder="Valid ID info" />
-        <input id="tenantEmergency" placeholder="Emergency contact" />
+        <form id="tenantForm" class="form-grid">
+          <input id="tenantName" placeholder="Name" required />
+          <input id="tenantContact" placeholder="Contact number" />
+          <input id="tenantAddress" placeholder="Address" />
+          <input id="tenantId" placeholder="Valid ID info" />
+          <input id="tenantEmergency" placeholder="Emergency contact" />
 
-        <select id="tenantType">
-          <option>Bedspace</option>
-          <option>Studio</option>
-          <option>Transient</option>
-        </select>
+          <select id="tenantType">
+            <option>Bedspace</option>
+            <option>Studio</option>
+            <option>Transient</option>
+          </select>
 
-        <button type="submit">Add Tenant / Guest</button>
-      </form>
+          <button type="submit" class="primary-btn">Add Tenant / Guest</button>
+        </form>
 
-      <div id="tenantList"></div>
+        <div id="tenantList" class="record-list"></div>
+      </section>
     </section>
 
     <section id="rooms" class="tab">
-      <h2>Unit / Room Management</h2>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Unit / Room Management</h3>
+          <span>Capacity, occupied beds, available slots, rate, and status</span>
+        </div>
 
-      <form id="roomForm">
-        <input id="roomNumber" placeholder="Room / unit number" required />
+        <form id="roomForm" class="form-grid">
+          <input id="roomNumber" placeholder="Room / unit number" required />
 
-        <select id="roomType">
-          <option>Bedspace</option>
-          <option>Studio</option>
-          <option>Transient</option>
-        </select>
+          <select id="roomType">
+            <option>Bedspace</option>
+            <option>Studio</option>
+            <option>Transient</option>
+          </select>
 
-        <input id="capacity" type="number" placeholder="Capacity" />
-        <input id="occupiedBeds" type="number" placeholder="Occupied beds" />
-        <input id="rate" type="number" placeholder="Monthly / daily rate" />
+          <input id="capacity" type="number" placeholder="Capacity" />
+          <input id="occupiedBeds" type="number" placeholder="Occupied beds" />
+          <input id="rate" type="number" placeholder="Monthly / daily rate" />
 
-        <select id="roomStatus">
-          <option>Available</option>
-          <option>Occupied</option>
-          <option>Reserved</option>
-          <option>Maintenance</option>
-        </select>
+          <select id="roomStatus">
+            <option>Available</option>
+            <option>Occupied</option>
+            <option>Reserved</option>
+            <option>Maintenance</option>
+          </select>
 
-        <button type="submit">Add Room</button>
-      </form>
+          <button type="submit" class="primary-btn">Add Room</button>
+        </form>
 
-      <div id="roomList"></div>
+        <div id="roomList" class="record-list"></div>
+      </section>
     </section>
 
     <section id="billing" class="tab">
-      <h2>Billing</h2>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Billing</h3>
+          <span>Rent, utilities, charges, discounts, and payment status</span>
+        </div>
 
-      <form id="billingForm">
-        <input id="billName" placeholder="Tenant / guest name" required />
-        <input id="rent" type="number" placeholder="Monthly rent / daily fee" />
-        <input id="advance" type="number" placeholder="Advance payment" />
-        <input id="deposit" type="number" placeholder="Deposit" />
-        <input id="water" type="number" placeholder="Water" />
-        <input id="electric" type="number" placeholder="Electric" />
-        <input id="internet" type="number" placeholder="Internet" />
-        <input id="other" type="number" placeholder="Other charges" />
-        <input id="discount" type="number" placeholder="Discount" />
+        <form id="billingForm" class="form-grid">
+          <input id="billName" placeholder="Tenant / guest name" required />
+          <input id="billingPeriod" placeholder="Billing period e.g. May 2026" />
+          <input id="rent" type="number" placeholder="Monthly rent / daily fee" />
+          <input id="advance" type="number" placeholder="Advance payment" />
+          <input id="deposit" type="number" placeholder="Deposit" />
+          <input id="water" type="number" placeholder="Water" />
+          <input id="electric" type="number" placeholder="Electric" />
+          <input id="internet" type="number" placeholder="Internet" />
+          <input id="other" type="number" placeholder="Other charges" />
+          <input id="discount" type="number" placeholder="Discount" />
 
-        <select id="paymentStatus">
-          <option>Paid</option>
-          <option>Partial</option>
-          <option>Unpaid</option>
-          <option>Overdue</option>
-          <option>Due Today</option>
-        </select>
+          <select id="paymentStatus">
+            <option>Paid</option>
+            <option>Partial</option>
+            <option>Unpaid</option>
+            <option>Overdue</option>
+            <option>Due Today</option>
+          </select>
 
-        <button type="submit">Create Bill</button>
-      </form>
+          <button type="submit" class="primary-btn">Create Bill</button>
+        </form>
 
-      <div id="billingList"></div>
+        <div id="billingList" class="record-list"></div>
+      </section>
     </section>
 
     <section id="invoice" class="tab">
-      <h2>Invoice / Statement of Account</h2>
+      <section class="panel printable-panel">
+        <div class="panel-header no-print">
+          <h3>Invoice / Statement of Account</h3>
+          <span>Auto-generated from latest bill</span>
+        </div>
 
-      <div id="invoiceArea">
-        <p>No invoice yet. Create a bill first.</p>
-      </div>
+        <div id="invoiceArea">
+          <p>No invoice yet. Create a bill first.</p>
+        </div>
 
-      <button type="button" onclick="window.print()">Print Invoice</button>
+        <button type="button" class="primary-btn no-print" onclick="window.print()">Print Invoice</button>
+      </section>
     </section>
 
     <section id="contracts" class="tab">
-      <h2>Contract / Agreement</h2>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Contract / Agreement</h3>
+          <span>Bedspace, studio, and transient agreements</span>
+        </div>
 
-      <select id="contractType">
-        <option>Bedspace Agreement</option>
-        <option>Studio Rental Agreement</option>
-        <option>Transient Stay Agreement</option>
-      </select>
+        <select id="contractType">
+          <option>Bedspace Agreement</option>
+          <option>Studio Rental Agreement</option>
+          <option>Transient Stay Agreement</option>
+        </select>
 
-      <textarea id="contractText" rows="16"></textarea>
+        <textarea id="contractText" rows="18"></textarea>
+      </section>
     </section>
 
     <section id="sms" class="tab">
-      <h2>Text / SMS Templates</h2>
-      <div id="smsTemplates"></div>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Text / SMS Templates</h3>
+          <span>Due reminders, overdue notices, confirmations, and announcements</span>
+        </div>
+
+        <div id="smsTemplates" class="template-grid"></div>
+      </section>
+    </section>
+
+    <section id="maintenance" class="tab">
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Maintenance / Tenant Requests</h3>
+          <span>Track repair concerns and tenant requests</span>
+        </div>
+
+        <form id="maintenanceForm" class="form-grid">
+          <input id="requestTenant" placeholder="Tenant / guest name" />
+          <input id="requestRoom" placeholder="Room / unit" />
+          <input id="requestIssue" placeholder="Issue or request" required />
+
+          <select id="requestPriority">
+            <option>Normal</option>
+            <option>Urgent</option>
+            <option>Low</option>
+          </select>
+
+          <select id="requestStatus">
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Done</option>
+          </select>
+
+          <button type="submit" class="primary-btn">Add Request</button>
+        </form>
+
+        <div id="maintenanceList" class="record-list"></div>
+      </section>
     </section>
 
     <section id="reports" class="tab">
-      <h2>Reports</h2>
-      <div id="reportsArea"></div>
+      <section class="panel">
+        <div class="panel-header">
+          <h3>Reports</h3>
+          <span>Occupancy, collections, unpaid tenants, overdue tenants, and history</span>
+        </div>
+
+        <div id="reportsArea" class="report-grid"></div>
+      </section>
     </section>
   </main>
 
-  <!-- JavaScript file, gagawin natin sa step 3 -->
   <script src="app.js"></script>
 </body>
 </html>
