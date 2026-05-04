@@ -1,6 +1,6 @@
 let profile = JSON.parse(localStorage.getItem("profile")) || {
   owner: "ArquillaPh",
-  property: "ArquillaPh Property",
+  property: "ArquillaPh Rental Property System",
   address: "",
   contact: "",
   email: "",
