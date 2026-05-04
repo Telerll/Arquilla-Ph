@@ -31,13 +31,15 @@ const pageTitles = {
 };
 
 document.querySelectorAll(".nav-btn").forEach(button => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", event => {
+    event.preventDefault();
     switchTab(button.dataset.tab);
   });
 });
 
 document.querySelectorAll("[data-tab-jump]").forEach(button => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", event => {
+    event.preventDefault();
     switchTab(button.dataset.tabJump);
   });
 });
@@ -104,6 +106,7 @@ roomForm.addEventListener("submit", event => {
   rooms.push({
     number: roomNumber.value,
     type: roomType.value,
+    deck: bedDeck.value,
     capacity: Number(capacity.value || 0),
     occupied: Number(occupiedBeds.value || 0),
     rate: Number(rate.value || 0),
@@ -319,6 +322,7 @@ function renderRooms() {
         <strong>Room / Unit ${room.number}</strong>
         <span>
           ${room.type} | <span class="badge ${badgeClass}">${room.status}</span><br>
+          ${room.deck ? `Bed Position: ${room.deck}<br>` : ""}
           Capacity: ${room.capacity}<br>
           Occupied Beds: ${room.occupied}<br>
           Available Slots: ${available}<br>
