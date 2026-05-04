@@ -680,4 +680,31 @@ textarea:focus {
 .sidebar-credit strong {
   color: var(--green-dark);
 }
+.credit-line {
+  display: block;
+}
+
+.dev-name {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 1px;
+  font-weight: 900;
+  color: #f7fff7;
+}
+
+.dev-name span {
+  color: #7ed321;
+}
+
+.dev-name sup {
+  margin-left: 3px;
+  padding: 1px 4px;
+  border: 1px solid #7ed321;
+  border-radius: 5px;
+  color: white;
+  font-size: 9px;
+  line-height: 1;
+  font-style: italic;
+  transform: translateY(-3px);
+}
 
