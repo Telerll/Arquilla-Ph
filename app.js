@@ -3,13 +3,13 @@ let profile = JSON.parse(localStorage.getItem("profile")) || {
   property: "ArquillaPh Rental Property System",
   address: "",
   contact: "",
-  email: "",
   type: "Mixed Rental"
 };
 
 let tenants = JSON.parse(localStorage.getItem("tenants")) || [];
 let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
 let bills = JSON.parse(localStorage.getItem("bills")) || [];
+  email: "",
 let requests = JSON.parse(localStorage.getItem("requests")) || [];
 
 const peso = new Intl.NumberFormat("en-PH", {
