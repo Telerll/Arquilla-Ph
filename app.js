@@ -12,6 +12,11 @@ let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
 let bills = JSON.parse(localStorage.getItem("bills")) || [];
 let requests = JSON.parse(localStorage.getItem("requests")) || [];
 
+tenants = tenants.map(item => item.id ? item : { ...item, id: crypto.randomUUID() });
+rooms = rooms.map(item => item.id ? item : { ...item, id: crypto.randomUUID() });
+bills = bills.map(item => item.id ? item : { ...item, id: crypto.randomUUID() });
+requests = requests.map(item => item.id ? item : { ...item, id: crypto.randomUUID() });
+
 const peso = new Intl.NumberFormat("en-PH", {
   style: "currency",
   currency: "PHP"
@@ -43,6 +48,25 @@ document.querySelectorAll("[data-tab-jump]").forEach(button => {
     switchTab(button.dataset.tabJump);
   });
 });
+
+document.addEventListener("click", event => {
+  const target = event.target;
+
+  if (target.dataset.editTenant) editTenant(target.dataset.editTenant);
+  if (target.dataset.deleteTenant) deleteTenant(target.dataset.deleteTenant);
+
+  if (target.dataset.editRoom) editRoom(target.dataset.editRoom);
+  if (target.dataset.updateRoom) updateRoomStatus(target.dataset.updateRoom);
+  if (target.dataset.deleteRoom) deleteRoom(target.dataset.deleteRoom);
+
+  if (target.dataset.updateBill) updateBillStatus(target.dataset.updateBill);
+  if (target.dataset.deleteBill) deleteBill(target.dataset.deleteBill);
+
+  if (target.dataset.updateRequest) updateRequestStatus(target.dataset.updateRequest);
+  if (target.dataset.deleteRequest) deleteRequest(target.dataset.deleteRequest);
+});
+
+save();
 
 function switchTab(tabName) {
   document.querySelectorAll(".tab").forEach(tab => {
@@ -86,6 +110,7 @@ tenantForm.addEventListener("submit", event => {
   event.preventDefault();
 
   tenants.push({
+    id: crypto.randomUUID(),
     name: tenantName.value,
     contact: tenantContact.value,
     address: tenantAddress.value,
@@ -104,6 +129,7 @@ roomForm.addEventListener("submit", event => {
   event.preventDefault();
 
   rooms.push({
+    id: crypto.randomUUID(),
     number: roomNumber.value,
     type: roomType.value,
     deck: typeof bedDeck !== "undefined" ? bedDeck.value : "",
@@ -122,6 +148,7 @@ billingForm.addEventListener("submit", event => {
   event.preventDefault();
 
   const bill = {
+    id: crypto.randomUUID(),
     name: billName.value,
     period: billingPeriod.value || "Current Billing Period",
     rent: Number(rent.value || 0),
@@ -157,6 +184,7 @@ maintenanceForm.addEventListener("submit", event => {
   event.preventDefault();
 
   requests.push({
+    id: crypto.randomUUID(),
     tenant: requestTenant.value || "N/A",
     room: requestRoom.value || "N/A",
     issue: requestIssue.value,
@@ -299,6 +327,11 @@ function renderTenants() {
           Emergency Contact: ${tenant.emergency || "N/A"}<br>
           Date Added: ${tenant.dateAdded}
         </span>
+
+        <div class="record-actions">
+          <button type="button" class="mini-btn" data-edit-tenant="${tenant.id}">Edit Record</button>
+          <button type="button" class="mini-btn danger" data-delete-tenant="${tenant.id}">Delete</button>
+        </div>
       </div>
     `;
   }).join("");
@@ -328,6 +361,12 @@ function renderRooms() {
           Available Slots: ${available}<br>
           Rate: ${peso.format(room.rate)}
         </span>
+
+        <div class="record-actions">
+          <button type="button" class="mini-btn" data-edit-room="${room.id}">Edit Room</button>
+          <button type="button" class="mini-btn" data-update-room="${room.id}">Update Status</button>
+          <button type="button" class="mini-btn danger" data-delete-room="${room.id}">Delete</button>
+        </div>
       </div>
     `;
   }).join("");
@@ -356,6 +395,11 @@ function renderBilling() {
           Advance: ${peso.format(bill.advance)} | Deposit: ${peso.format(bill.deposit)}<br>
           <strong>Total Due: ${peso.format(bill.total)}</strong>
         </span>
+
+        <div class="record-actions">
+          <button type="button" class="mini-btn" data-update-bill="${bill.id}">Update Payment</button>
+          <button type="button" class="mini-btn danger" data-delete-bill="${bill.id}">Delete</button>
+        </div>
       </div>
     `;
   }).join("");
@@ -507,9 +551,102 @@ function renderMaintenance() {
           Status: ${request.status}<br>
           Date: ${request.date}
         </span>
+
+        <div class="record-actions">
+          <button type="button" class="mini-btn" data-update-request="${request.id}">Update Status</button>
+          <button type="button" class="mini-btn danger" data-delete-request="${request.id}">Delete</button>
+        </div>
       </div>
     `;
   }).join("");
+}
+
+function editTenant(id) {
+  const tenant = tenants.find(item => item.id === id);
+  if (!tenant) return;
+
+  tenant.name = prompt("Tenant / Guest Name:", tenant.name) || tenant.name;
+  tenant.contact = prompt("Contact Number:", tenant.contact) || tenant.contact;
+  tenant.address = prompt("Address:", tenant.address) || tenant.address;
+  tenant.idInfo = prompt("Valid ID Info:", tenant.idInfo) || tenant.idInfo;
+  tenant.emergency = prompt("Emergency Contact:", tenant.emergency) || tenant.emergency;
+  tenant.type = prompt("Type: Bedspace / Studio / Transient", tenant.type) || tenant.type;
+
+  save();
+  render();
+}
+
+function deleteTenant(id) {
+  if (!confirm("Delete this tenant / guest record?")) return;
+  tenants = tenants.filter(item => item.id !== id);
+  save();
+  render();
+}
+
+function editRoom(id) {
+  const room = rooms.find(item => item.id === id);
+  if (!room) return;
+
+  room.number = prompt("Room / Unit Number:", room.number) || room.number;
+  room.type = prompt("Type: Bedspace / Studio / Transient", room.type) || room.type;
+  room.deck = prompt("Bed Position: Lower Deck / Upper Deck", room.deck || "") || room.deck;
+  room.capacity = Number(prompt("Capacity:", room.capacity) || room.capacity);
+  room.occupied = Number(prompt("Occupied Beds:", room.occupied) || room.occupied);
+  room.rate = Number(prompt("Rate:", room.rate) || room.rate);
+
+  save();
+  render();
+}
+
+function updateRoomStatus(id) {
+  const room = rooms.find(item => item.id === id);
+  if (!room) return;
+
+  room.status = prompt("Status: Available / Occupied / Reserved / Maintenance", room.status) || room.status;
+
+  save();
+  render();
+}
+
+function deleteRoom(id) {
+  if (!confirm("Delete this room / unit record?")) return;
+  rooms = rooms.filter(item => item.id !== id);
+  save();
+  render();
+}
+
+function updateBillStatus(id) {
+  const bill = bills.find(item => item.id === id);
+  if (!bill) return;
+
+  bill.status = prompt("Payment Status: Paid / Partial / Unpaid / Overdue / Due Today", bill.status) || bill.status;
+
+  save();
+  render();
+}
+
+function deleteBill(id) {
+  if (!confirm("Delete this billing record?")) return;
+  bills = bills.filter(item => item.id !== id);
+  save();
+  render();
+}
+
+function updateRequestStatus(id) {
+  const request = requests.find(item => item.id === id);
+  if (!request) return;
+
+  request.status = prompt("Status: Open / In Progress / Done", request.status) || request.status;
+
+  save();
+  render();
+}
+
+function deleteRequest(id) {
+  if (!confirm("Delete this maintenance request?")) return;
+  requests = requests.filter(item => item.id !== id);
+  save();
+  render();
 }
 
 function exportCSV(type) {
