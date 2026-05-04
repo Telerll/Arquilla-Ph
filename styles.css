@@ -125,10 +125,10 @@ button {
 
 .sidebar-credit {
   margin-top: auto;
-  padding: 14px;
+  padding: 13px 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.82);
   color: var(--muted);
   font-size: 12px;
   backdrop-filter: blur(14px);
@@ -136,25 +136,26 @@ button {
 
 .sidebar-credit > span {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
 }
 
 .credit-line {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   margin: 0;
   color: var(--green-dark);
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .dev-logo-text {
   display: inline-flex;
   align-items: flex-start;
-  margin-left: 4px;
   color: #111827;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 900;
   letter-spacing: 0;
 }
-
 .dev-logo-text span {
   color: #65b900;
 }
