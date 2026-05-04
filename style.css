@@ -1,0 +1,206 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+.sidebar {
+  background: #12312f;
+  color: white;
+  padding: 24px;
+}
+
+.sidebar h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+}
+
+.sidebar p {
+  margin: 0 0 24px;
+  color: #b7d6d1;
+  line-height: 1.4;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.main-content {
+  padding: 28px;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.active {
+  display: block;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card,
+form,
+.item,
+#invoiceArea,
+#reportsArea,
+#smsTemplates,
+textarea {
+  background: white;
+  border: 1px solid #dbe2ea;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.card span {
+  color: #6b7280;
+}
+
+.card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 28px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+form button,
+.main-content > section > button {
+  border: 0;
+  border-radius: 6px;
+  padding: 10px;
+  background: #0f766e;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+.main-content > section > button:hover {
+  background: #115e59;
+}
+
+.item {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.status {
+  font-weight: bold;
+}
+
+#contractType {
+  margin-bottom: 12px;
+}
+
+#contractText {
+  width: 100%;
+  min-height: 360px;
+}
+
+@media print {
+  body {
+    display: block;
+    background: white;
+  }
+
+  .sidebar,
+  .cards,
+  form,
+  h2,
+  button,
+  #contractType,
+  #contractText,
+  #tenantList,
+  #roomList,
+  #billingList,
+  #smsTemplates,
+  #reportsArea {
+    display: none;
+  }
+
+  .main-content {
+    padding: 0;
+  }
+
+  .tab {
+    display: none;
+  }
+
+  #invoice {
+    display: block;
+  }
+
+  #invoiceArea {
+    border: 0;
+    padding: 0;
+  }
+}
+
+@media (max-width: 850px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+
+  form,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    padding: 18px;
+  }
+
+  .main-content {
+    padding: 18px;
+  }
+}
