@@ -106,7 +106,7 @@ roomForm.addEventListener("submit", event => {
   rooms.push({
     number: roomNumber.value,
     type: roomType.value,
-    deck: bedDeck.value,
+    deck: typeof bedDeck !== "undefined" ? bedDeck.value : "",
     capacity: Number(capacity.value || 0),
     occupied: Number(occupiedBeds.value || 0),
     rate: Number(rate.value || 0),
@@ -412,6 +412,14 @@ function renderReports() {
     .reduce((sum, bill) => sum + bill.total, 0);
 
   reportsArea.innerHTML = `
+    <div class="report-actions">
+      <button type="button" class="secondary-btn" onclick="exportCSV('tenants')">Export Tenants CSV</button>
+      <button type="button" class="secondary-btn" onclick="exportCSV('rooms')">Export Rooms CSV</button>
+      <button type="button" class="secondary-btn" onclick="exportCSV('billing')">Export Billing CSV</button>
+      <button type="button" class="secondary-btn" onclick="exportCSV('maintenance')">Export Maintenance CSV</button>
+      <button type="button" class="primary-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
     <div class="report-card">
       <strong>Occupancy Report</strong>
       <span>${occupiedRooms} occupied out of ${rooms.length} rooms.</span>
@@ -502,6 +510,105 @@ function renderMaintenance() {
       </div>
     `;
   }).join("");
+}
+
+function exportCSV(type) {
+  let filename = "";
+  let rows = [];
+
+  if (type === "tenants") {
+    filename = "tenants.csv";
+    rows = [
+      ["Name", "Contact", "Address", "Valid ID", "Emergency Contact", "Type", "Date Added"],
+      ...tenants.map(tenant => [
+        tenant.name,
+        tenant.contact,
+        tenant.address,
+        tenant.idInfo,
+        tenant.emergency,
+        tenant.type,
+        tenant.dateAdded
+      ])
+    ];
+  }
+
+  if (type === "rooms") {
+    filename = "rooms.csv";
+    rows = [
+      ["Room / Unit", "Type", "Bed Position", "Capacity", "Occupied Beds", "Available Slots", "Rate", "Status"],
+      ...rooms.map(room => [
+        room.number,
+        room.type,
+        room.deck || "",
+        room.capacity,
+        room.occupied,
+        Math.max(room.capacity - room.occupied, 0),
+        room.rate,
+        room.status
+      ])
+    ];
+  }
+
+  if (type === "billing") {
+    filename = "billing.csv";
+    rows = [
+      ["Tenant / Guest", "Billing Period", "Rent / Fee", "Advance", "Deposit", "Water", "Electric", "Internet", "Other", "Discount", "Total Due", "Status", "Date"],
+      ...bills.map(bill => [
+        bill.name,
+        bill.period,
+        bill.rent,
+        bill.advance,
+        bill.deposit,
+        bill.water,
+        bill.electric,
+        bill.internet,
+        bill.other,
+        bill.discount,
+        bill.total,
+        bill.status,
+        bill.date
+      ])
+    ];
+  }
+
+  if (type === "maintenance") {
+    filename = "maintenance.csv";
+    rows = [
+      ["Tenant / Guest", "Room / Unit", "Issue", "Priority", "Status", "Date"],
+      ...requests.map(request => [
+        request.tenant,
+        request.room,
+        request.issue,
+        request.priority,
+        request.status,
+        request.date
+      ])
+    ];
+  }
+
+  downloadCSV(filename, rows);
+}
+
+function downloadCSV(filename, rows) {
+  const csv = rows.map(row => {
+    return row.map(value => {
+      const safeValue = String(value ?? "").replace(/"/g, '""');
+      return `"${safeValue}"`;
+    }).join(",");
+  }).join("\n");
+
+  const blob = new Blob([csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+  link.click();
+
+  URL.revokeObjectURL(url);
 }
 
 function updateContract() {
