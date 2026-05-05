@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ArquillaPh Rental Management System</title>
-  <link rel="stylesheet" href="styles.css?v=8" />
+  <link rel="stylesheet" href="styles.css?v=10" />
   <link rel="icon" type="image/png" href="arquillaph-icon.png" />
   <link rel="apple-touch-icon" href="arquillaph-icon.png" />
 </head>
@@ -197,7 +197,7 @@
       <section class="panel">
         <div class="panel-header">
           <h3>Tenant / Guest Records</h3>
-          <span>Name, contact, ID, emergency details, and rental type</span>
+          <span>Assign tenants and guests to rooms, units, and bed positions</span>
         </div>
 
         <form id="tenantForm" class="form-grid">
@@ -213,7 +213,20 @@
             <option>Transient</option>
           </select>
 
-          <button type="submit" class="primary-btn">Add Tenant / Guest</button>
+          <select id="tenantRoom">
+            <option value="">Assign room / unit</option>
+          </select>
+
+          <label id="tenantDeckField">
+            Bed Position
+            <select id="tenantDeck">
+              <option value="">Select bed position</option>
+              <option>Lower Deck</option>
+              <option>Upper Deck</option>
+            </select>
+          </label>
+
+          <button type="submit" class="primary-btn" id="tenantSubmitBtn">Add Tenant / Guest</button>
         </form>
 
         <div id="tenantList" class="record-list"></div>
@@ -224,7 +237,7 @@
       <section class="panel">
         <div class="panel-header">
           <h3>Unit / Room Management</h3>
-          <span>Capacity, occupied beds, available slots, rate, and status</span>
+          <span>Capacity, assigned tenants, available slots, rate, and status</span>
         </div>
 
         <form id="roomForm" class="form-grid">
@@ -236,15 +249,14 @@
             <option>Transient</option>
           </select>
 
-          <select id="bedDeck">
-            <option value="">Bed deck / position</option>
-            <option>Lower Deck</option>
-            <option>Upper Deck</option>
+          <input id="capacity" type="number" placeholder="Capacity" />
+
+          <select id="rateType">
+            <option>Monthly</option>
+            <option>Daily</option>
           </select>
 
-          <input id="capacity" type="number" placeholder="Capacity" />
-          <input id="occupiedBeds" type="number" placeholder="Occupied beds" />
-          <input id="rate" type="number" placeholder="Monthly / daily rate" />
+          <input id="rate" type="number" placeholder="Rate amount" />
 
           <select id="roomStatus">
             <option>Available</option>
@@ -253,7 +265,7 @@
             <option>Maintenance</option>
           </select>
 
-          <button type="submit" class="primary-btn">Add Room</button>
+          <button type="submit" class="primary-btn" id="roomSubmitBtn">Add Room</button>
         </form>
 
         <div id="roomList" class="record-list"></div>
@@ -264,13 +276,30 @@
       <section class="panel">
         <div class="panel-header">
           <h3>Billing</h3>
-          <span>Rent, utilities, charges, discounts, and payment status</span>
+          <span>Select tenant, set billing period, utilities, charges, and payment status</span>
         </div>
 
         <form id="billingForm" class="form-grid">
-          <input id="billName" placeholder="Tenant / guest name" required />
-          <input id="billingPeriod" placeholder="Billing period e.g. May 2026" />
-          <input id="rent" type="number" placeholder="Monthly rent / daily fee" />
+          <select id="billTenant" required>
+            <option value="">Select tenant / guest</option>
+          </select>
+
+          <label>
+            Billing From
+            <input id="billingFrom" type="date" required />
+          </label>
+
+          <label>
+            Billing To
+            <input id="billingTo" type="date" required />
+          </label>
+
+          <select id="billRateType">
+            <option>Monthly Rent</option>
+            <option>Daily Fee</option>
+          </select>
+
+          <input id="rent" type="number" placeholder="Rent / daily fee amount" />
           <input id="advance" type="number" placeholder="Advance payment" />
           <input id="deposit" type="number" placeholder="Deposit" />
           <input id="water" type="number" placeholder="Water" />
@@ -287,7 +316,7 @@
             <option>Due Today</option>
           </select>
 
-          <button type="submit" class="primary-btn">Create Bill</button>
+          <button type="submit" class="primary-btn" id="billingSubmitBtn">Create Bill</button>
         </form>
 
         <div id="billingList" class="record-list"></div>
@@ -361,7 +390,7 @@
             <option>Done</option>
           </select>
 
-          <button type="submit" class="primary-btn">Add Request</button>
+          <button type="submit" class="primary-btn" id="maintenanceSubmitBtn">Add Request</button>
         </form>
 
         <div id="maintenanceList" class="record-list"></div>
@@ -389,6 +418,6 @@
     </footer>
   </main>
 
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
