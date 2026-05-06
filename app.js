@@ -162,6 +162,11 @@ tenantForm.addEventListener("submit", event => {
   const selectedRoom = rooms.find(room => room.id === tenantRoom.value);
   const selectedTenant = editingTenantId ? tenants.find(tenant => tenant.id === editingTenantId) : null;
 
+  if (tenantType.value === "Bedspace" && tenantRoom.value && !tenantDeck.value) {
+    alert("Please select Lower Deck or Upper Deck for bedspace tenant.");
+    return;
+  }
+
   if (selectedRoom && isRoomBlockedForTenant(selectedRoom, selectedTenant?.id)) {
     alert("This room is full or under maintenance. Please choose another room.");
     return;
@@ -338,6 +343,7 @@ function render() {
   renderProfile();
   populateRoomDropdown();
   populateBillTenantDropdown();
+  populateMaintenanceRoomDropdown();
   renderDashboard();
   renderTenants();
   renderRooms();
@@ -367,9 +373,15 @@ function populateRoomDropdown() {
   const currentValue = tenantRoom.value;
 
   tenantRoom.innerHTML = `<option value="">Assign room / unit</option>` + rooms.map(room => {
-    const occupancy = getRoomOccupancy(room.id);
     const available = getAvailableSlots(room);
-    const disabled = room.status === "Maintenance" || available <= 0;
+    const assignedToCurrentTenant = tenants.some(tenant => {
+      return tenant.id === editingTenantId && tenant.roomId === room.id;
+    });
+
+    const disabled =
+      !assignedToCurrentTenant &&
+      (room.status === "Maintenance" || room.status === "Reserved" || available <= 0);
+
     const label = `Room ${room.number} - ${room.type} (${available} slot/s)`;
 
     return `<option value="${room.id}" ${disabled ? "disabled" : ""}>${label}</option>`;
@@ -391,6 +403,17 @@ function populateBillTenantDropdown() {
   if (tenants.some(tenant => tenant.id === currentValue)) {
     billTenant.value = currentValue;
   }
+}
+
+function populateMaintenanceRoomDropdown() {
+  const currentValue = requestRoom.value;
+
+  requestRoom.innerHTML = `<option value="">Select room / unit</option>` + rooms.map(room => {
+    const status = getDisplayRoomStatus(room);
+    return `<option value="${room.number}">Room ${room.number} - ${room.type} (${status})</option>`;
+  }).join("");
+
+  requestRoom.value = currentValue;
 }
 
 function toggleTenantDeck() {
