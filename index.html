@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ArquillaPh Rental Management System</title>
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=13" />
   <link rel="icon" type="image/png" href="arquillaph-icon.png" />
   <link rel="apple-touch-icon" href="arquillaph-icon.png" />
 </head>
@@ -375,7 +375,11 @@
 
         <form id="maintenanceForm" class="form-grid">
           <input id="requestTenant" placeholder="Tenant / guest name" />
-          <input id="requestRoom" placeholder="Room / unit" />
+
+          <select id="requestRoom">
+            <option value="">Select room / unit</option>
+          </select>
+
           <input id="requestIssue" placeholder="Issue or request" required />
 
           <select id="requestPriority">
@@ -409,16 +413,13 @@
     </section>
 
     <footer class="sidebar-credit app-credit">
-      <span>© 2026 All rights reserved.</span>
+  <span>
+    © 2026 All rights reserved | Created by
+    <strong class="dev-logo-text">Lemon<span>Dev</span><sup>PH</sup></strong>
+  </span>
+</footer>
+</main>
 
-      <p class="credit-line">
-        Created by
-        <strong class="dev-logo-text">Lemon<span>Dev</span><sup>PH</sup></strong>
-      </p>
-    </footer>
-  </main>
-
-  <link rel="stylesheet" href="styles.css?v=10" />
-<script src="app.js?v=10"></script
+  <script src="app.js?v=13"></script>
 </body>
 </html>
